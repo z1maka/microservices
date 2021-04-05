@@ -1,0 +1,16 @@
+apiVersion: skaffold/v2beta13
+kind: Config
+metadata:
+  name: microservices
+build:
+  local:
+    push: false
+  artifacts:
+    - image: z1maka/auth_service
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
