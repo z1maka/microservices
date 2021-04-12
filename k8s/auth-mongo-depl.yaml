@@ -11,12 +11,11 @@ spec:
       targetPort: 27017
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
-  name: auth-mongo
+  name: auth-mongo-depl
 spec:
   replicas: 1
-  serviceName: "auth-mongo-srv"
   selector:
     matchLabels:
       app: auth-mongo
@@ -29,23 +28,23 @@ spec:
       containers:
         - name: auth-mongo
           image: mongo
-          command:
-            - mongod
-            - "--bind_ip_all"
-            - "--replSet"
-            - rs0
-          ports:
-            - containerPort: 27017
-          volumeMounts:
-            - name: mongo-volume
-              mountPath: /data/db
-  volumeClaimTemplates:
-    - metadata:
-        name: mongo-volume
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 1Gi
+#          command:
+#            - mongod
+#            - "--bind_ip_all"
+#            - "--replSet"
+#            - rs0
+#          ports:
+#            - containerPort: 27017
+#          volumeMounts:
+#            - name: mongo-volume
+#              mountPath: /data/db
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: mongo-volume
+#      spec:
+#        accessModes: ["ReadWriteOnce"]
+#        resources:
+#          requests:
+#            storage: 1Gi
 
 

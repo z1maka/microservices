@@ -1,5 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import mongoose from "mongoose";
+import cookieSession from "cookie-session";
 import { json } from "body-parser";
 import { currentUserRouter } from "./routes/current-user";
 import { signupRouter } from "./routes/signup";
@@ -9,7 +10,15 @@ import { errorHandler } from "./middleware/errorHandler";
 import { NotFoundError } from "./utils/errors/not-found-error";
 
 const app = express();
+app.set("trust proxy", true);
 app.use(json());
+app.use(
+  cookieSession({
+    signed: false,
+    secure: true,
+  })
+);
+
 // routes
 app.use(currentUserRouter);
 app.use(signupRouter);
@@ -23,6 +32,10 @@ app.all("*", async (req: Request, res: Response, next: NextFunction) => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_KEY) {
+    throw new Error("You should provide JWT_KEY in process.env");
+  }
+
   try {
     await mongoose
       .connect("mongodb://auth-mongo-srv:27017/auth", {

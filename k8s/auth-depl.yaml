@@ -29,3 +29,9 @@ spec:
       containers:
         - name: auth
           image: z1maka/auth_service
+          env:
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef: # you should create secret (kubectl create secret generic jwt-service --from-literal=JWT_KEY=value)
+                  name: jwt-service
+                  key: JWT_KEY
