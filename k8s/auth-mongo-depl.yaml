@@ -28,23 +28,11 @@ spec:
       containers:
         - name: auth-mongo
           image: mongo
-#          command:
-#            - mongod
-#            - "--bind_ip_all"
-#            - "--replSet"
-#            - rs0
-#          ports:
-#            - containerPort: 27017
-#          volumeMounts:
-#            - name: mongo-volume
-#              mountPath: /data/db
-#  volumeClaimTemplates:
-#    - metadata:
-#        name: mongo-volume
-#      spec:
-#        accessModes: ["ReadWriteOnce"]
-#        resources:
-#          requests:
-#            storage: 1Gi
-
+          volumeMounts:
+            - mountPath: /data/db
+              name: mongo-volume
+      volumes:
+        - name: mongo-volume
+          hostPath:
+            path: /db/mongodb
 

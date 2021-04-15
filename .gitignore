@@ -1,3 +1,5 @@
 auth/node_modules
+client/node_modules
 auth/package-lock.json
+client/package-lock.json
 .idea

@@ -19,33 +19,29 @@ router.post(
   ],
   validateRequest,
   async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { email, password } = req.body;
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        return next(new BadRequestError("User already exists!"));
-      }
-
-      const user = User.build({ email, password });
-      await user.save();
-
-      // create jwt
-      const userJWT = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-        },
-        process.env.JWT_KEY!
-      );
-      // store jwt to cookie
-      req.session = {
-        jwt: userJWT,
-      };
-
-      res.send(user);
-    } catch (err) {
-      return next(err);
+    const { email, password } = req.body;
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new BadRequestError("User already exists!");
     }
+
+    const user = User.build({ email, password });
+    await user.save();
+
+    // create jwt
+    const userJWT = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+      },
+      process.env.JWT_KEY!
+    );
+    // store jwt to cookie
+    req.session = {
+      jwt: userJWT,
+    };
+
+    res.status(201).send(user);
   }
 );
 
