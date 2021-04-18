@@ -33,5 +33,5 @@ spec:
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef: # you should create secret (kubectl create secret generic jwt-service --from-literal=JWT_KEY=value)
-                  name: jwt-service
+                  name: jwt-secret
                   key: JWT_KEY

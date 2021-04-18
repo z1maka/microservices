@@ -1,5 +1,10 @@
 auth/node_modules
 client/node_modules
+common/node_modules
+
 auth/package-lock.json
+common/package-lock.json
 client/package-lock.json
+
+client/.next
 .idea
