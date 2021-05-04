@@ -30,6 +30,8 @@ spec:
         - name: auth
           image: z1maka/auth_service
           env:
+            - name: MONGO_URI
+              value: "mongodb://auth-mongo-srv:27017/auth"
             - name: JWT_KEY
               valueFrom:
                 secretKeyRef: # you should create secret (kubectl create secret generic jwt-service --from-literal=JWT_KEY=value)

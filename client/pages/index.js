@@ -10,7 +10,6 @@ const LandingPage = ({ currentUser }) => {
 };
 
 LandingPage.getInitialProps = async (context) => {
-  console.log("LANDING PAGE");
   const { data } = await axiosInstance(context).get("/api/users/currentuser");
   return data;
 };

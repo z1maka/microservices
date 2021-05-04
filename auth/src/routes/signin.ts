@@ -4,8 +4,7 @@ import { body } from "express-validator";
 
 import { PasswordService } from "../services/password";
 import { User } from "../models/user";
-import { validateRequest } from "../../../common/src/middleware/validate-request";
-import { BadRequestError } from "../../../common/src/errors/bad-request";
+import { validateRequest, BadRequestError } from "@z1maka-common/common";
 
 const router = express.Router();
 
