@@ -8,10 +8,10 @@ import {
   currentUser,
   NotFoundError,
 } from "@z1maka-common/common";
-import { router as getOrderList } from "../routes/get-list";
-import { router as getOrder } from "../routes/get-one";
-import { router as createOrder } from "../routes/create";
-import { router as deleteOrder } from "../routes/delete";
+import { router as getOrderList } from "./routes/get-list";
+import { router as getOrder } from "./routes/get-one";
+import { router as createOrder } from "./routes/create";
+import { router as deleteOrder } from "./routes/delete";
 
 const app = express();
 app.set("trust proxy", true);
