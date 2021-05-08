@@ -8,10 +8,10 @@ import {
   currentUser,
   NotFoundError,
 } from "@z1maka-common/common";
-import { router as createTicket } from "./routes/create";
-import { router as getOneTicket } from "./routes/get-one";
-import { router as getList } from "./routes/get-list";
-import { router as updateTicket } from "./routes/update";
+import { router as getOrderList } from "../routes/get-list";
+import { router as getOrder } from "../routes/get-one";
+import { router as createOrder } from "../routes/create";
+import { router as deleteOrder } from "../routes/delete";
 
 const app = express();
 app.set("trust proxy", true);
@@ -25,10 +25,10 @@ app.use(
 
 app.use(currentUser);
 // routes
-app.use(createTicket);
-app.use(getList);
-app.use(getOneTicket);
-app.use(updateTicket);
+app.use(getOrderList);
+app.use(createOrder);
+app.use(deleteOrder);
+app.use(getOrder);
 
 app.all("*", async (req: Request, res: Response, next: NextFunction) => {
   throw new NotFoundError();

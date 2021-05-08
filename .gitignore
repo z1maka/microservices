@@ -4,8 +4,13 @@ auth/package-lock.json
 ticket/node_modules
 ticket/package-lock.json
 
+order/node_modules
+order/package-lock.json
+
 client/node_modules
 client/package-lock.json
+
+
 
 common
 nats-test

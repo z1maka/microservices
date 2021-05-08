@@ -30,3 +30,11 @@ build:
         manual:
           - src: "**/*js"
             dest: .
+    - image: z1maka/order_service
+      context: order
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
