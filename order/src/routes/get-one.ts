@@ -1,9 +1,24 @@
 import { Request, Response, Router } from "express";
+import {
+  NotAuthorizedError,
+  NotFoundError,
+  requireAuth,
+} from "@z1maka-common/common";
+import { Order } from "../models/order";
 
 const router = Router();
 
-router.get("/api/order/:id", async (req: Request, res: Response) => {
-  res.send({ message: "get one", id: req.params.id });
-});
+router.get(
+  "/api/order/:id",
+  requireAuth,
+  async (req: Request, res: Response) => {
+    const order = await Order.findById(req.params.id).populate("ticket");
+    if (!order) throw new NotFoundError();
+
+    if (order.userId !== req.currentUser!.id) throw new NotAuthorizedError();
+
+    res.send(order);
+  }
+);
 
 export { router };

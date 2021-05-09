@@ -1,10 +1,10 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import { Request, Response, Router } from "express";
 import { body } from "express-validator";
 import {
+  OrderStatus,
   BadRequestError,
   NotFoundError,
-  OrderStatus,
   requireAuth,
   validateRequest,
 } from "@z1maka-common/common";
@@ -45,6 +45,8 @@ router.post(
     });
 
     await order.save();
+
+    // Publish an event
 
     res.status(201).send(order);
   }
