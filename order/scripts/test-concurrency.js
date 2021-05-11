@@ -54,7 +54,7 @@ const doRequest = async () => {
 };
 
 (async () => {
-  for (let i = 0; i < 400; i++) {
-    doRequest().catch((err) => console.log(err.message));
+  for (let i = 0; i < 1000; i++) {
+    doRequest();
   }
 })();

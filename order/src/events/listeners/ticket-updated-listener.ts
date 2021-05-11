@@ -1,10 +1,5 @@
 import { Message } from "node-nats-streaming";
-import {
-  Subjects,
-  Listener,
-  TicketUpdatedEvent,
-  NotFoundError,
-} from "@z1maka-common/common";
+import { Subjects, Listener, TicketUpdatedEvent } from "@z1maka-common/common";
 import { queueGroupName } from "./queue-group-name";
 import { Ticket } from "../../models/ticket";
 
@@ -13,12 +8,8 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
   queueGroupName = queueGroupName;
 
   async onMessage(data: TicketUpdatedEvent["data"], msg: Message) {
-    console.log("version", data.version);
-    const ticket = await Ticket.findOne({
-      _id: data.id,
-      version: data.version - 1,
-    });
-    if (!ticket) throw new NotFoundError();
+    const ticket = await Ticket.findByEvent(data);
+    if (!ticket) throw new Error("Ticket not found");
 
     const { price, title } = data;
     ticket.set({ price, title });
