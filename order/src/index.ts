@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 import { natsClient } from "./nats-client";
 import { app } from "./app";
+import { TicketCreatedListener } from "./events/listeners/ticket-created-listener";
+import { TicketUpdatedListener } from "./events/listeners/ticket-updated-listener";
 
 const start = async () => {
   if (!process.env.JWT_KEY)
@@ -20,6 +22,17 @@ const start = async () => {
       process.env.NATS_CLIENT_ID,
       process.env.NATS_URI
     );
+
+    natsClient.client.on("close", () => {
+      console.log("[NATS]: Connection closed");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsClient.client.close());
+    process.on("SIGTERM", () => natsClient.client.close());
+
+    new TicketCreatedListener(natsClient.client).listen();
+    new TicketUpdatedListener(natsClient.client).listen();
 
     await mongoose
       .connect(process.env.MONGO_URI, {

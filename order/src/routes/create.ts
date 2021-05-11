@@ -8,6 +8,9 @@ import {
   requireAuth,
   validateRequest,
 } from "@z1maka-common/common";
+
+import { natsClient } from "../nats-client";
+import { OrderCreatedPublisher } from "../events/publishers/order-created-publisher";
 import { Ticket } from "../models/ticket";
 import { Order } from "../models/order";
 
@@ -47,6 +50,16 @@ router.post(
     await order.save();
 
     // Publish an event
+    new OrderCreatedPublisher(natsClient.client).publish({
+      id: order.id,
+      status: order.status,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     res.status(201).send(order);
   }

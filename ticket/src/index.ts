@@ -21,6 +21,14 @@ const start = async () => {
       process.env.NATS_URI
     );
 
+    natsClient.client.on("close", () => {
+      console.log("[NATS]: Connection closed");
+      process.exit();
+    });
+
+    process.on("SIGINT", () => natsClient.client.close());
+    process.on("SIGTERM", () => natsClient.client.close());
+
     await mongoose
       .connect(process.env.MONGO_URI, {
         useNewUrlParser: true,
