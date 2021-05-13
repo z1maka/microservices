@@ -38,3 +38,11 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: z1maka/expiration_service
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .

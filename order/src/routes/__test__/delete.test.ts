@@ -4,9 +4,11 @@ import { Ticket } from "../../models/ticket";
 import { Order } from "../../models/order";
 import { OrderStatus } from "@z1maka-common/common";
 import { natsClient } from "../../nats-client";
+import mongoose from "mongoose";
 
 it("should mark an order is cancelled", async function () {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -32,6 +34,7 @@ it("should mark an order is cancelled", async function () {
 
 it("should publish order created event", async function () {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
